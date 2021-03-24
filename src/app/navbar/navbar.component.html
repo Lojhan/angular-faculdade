@@ -1,0 +1,41 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
+    <a class="navbar-brand" routerLink="">Blog Aleatório</a>
+    <button class="navbar-toggler" type="button" (click)="isMenuCollapsed = !isMenuCollapsed">
+      &#9776;
+    </button>
+    <div [ngbCollapse]="isMenuCollapsed" class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+        <li class="nav-item" >
+          <a class="nav-link" routerLink="about" (click)="isMenuCollapsed = true">Sobre</a>
+        </li>
+          <div *ngIf="logged"  ngbDropdown class="d-inline-block" >
+            <li class="nav-link" style="cursor: pointer;" id="dropdownBasic1" ngbDropdownToggle>Área do Adm</li>
+            <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+              <button ngbDropdownItem routerLink="new-post">Criar post</button>
+              <button ngbDropdownItem routerLink="my-posts">Meus posts</button>
+              <button ngbDropdownItem routerLink="profile">Perfil</button>
+              <div class="dropdown-divider"></div>
+              <button ngbDropdownItem routerLink="/">Sair</button>
+            </div>
+          </div>
+          <div  *ngIf="!logged"  ngbDropdown class="d-inline-block" >
+            <li class="nav-link" style="cursor: pointer;" id="dropdownForm1" ngbDropdownToggle>Login</li>
+            <div ngbDropdownMenu aria-labelledby="dropdownForm1">
+              <div class="px-3 py-2">
+                <div class="form-group">
+                  <label for="exampleDropdownFormEmail1" >E-mail</label>
+                  <input type="email" class="form-control" (input)="setEmail($event)" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+                </div>
+                <div class="form-group">
+                  <label for="exampleDropdownFormPassword1">Senha</label>
+                  <input type="password" class="form-control" (input)="setPassword($event)" id="exampleDropdownFormPassword1" placeholder="Password">
+                </div>
+                <button (click)="login()" class="btn btn-dark w-100 mt-3">Fazer login</button>
+              </div>
+              <div class="dropdown-divider"></div>
+              <button ngbDropdownItem routerLink="sign-up">Novo aqui? Crie seu perfil.</button>
+            </div>
+          </div>
+      </ul>
+    </div>
+  </nav>

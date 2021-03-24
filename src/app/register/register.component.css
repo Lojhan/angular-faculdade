@@ -1,0 +1,9 @@
+.profile-pic {
+    width: 250px;
+    height: 250px;
+    border-radius: 50%;
+    background-color: black;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}

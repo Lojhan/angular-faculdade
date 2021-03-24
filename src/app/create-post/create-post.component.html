@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="mt-5 mb-5">
+        <img [src]="src" class="img-fluid mx-auto d-block" alt="Responsive image" (click)="openPicker()">
+        <input type="file" id="profile-pic" style="display: none;" (change)="changed($event)">
+
+        <div class="card p-3 mb-5">
+            <label for="" class="mt-3">Título</label>
+            <input  type="text" id="registerUsername" class="form-control" >
+            
+            
+            <label for="" class="mt-3">Subtítulo</label>
+            <input  type="text" id="registerUsername" class="form-control" >
+            
+            
+            <label for="" class="mt-3">Texto</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>
+            
+            <button class="btn btn-outline-dark mt-5 d-block">Criar post</button>
+        </div>
+    </div>
+</div>

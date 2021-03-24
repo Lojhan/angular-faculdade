@@ -1,0 +1,26 @@
+<div class="container mt-5">
+    <ngb-carousel *ngIf="images">
+
+        <ng-template ngbSlide *ngFor="let id of images;">
+          <div class="picsum-img-wrapper" (click)="navigate(id)">
+            <img src="https://picsum.photos/id/{{id}}/1200/500" alt="Random second slide">
+          </div>
+          <div class="carousel-caption">
+            <h3>Second slide label</h3>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </div>
+        </ng-template>
+
+      </ngb-carousel>
+    <h1 class="my-5 display-3 ">Útimos posts:</h1>
+
+    <div class="p-5 grid mx-auto">
+
+      <div class="card" *ngFor="let id of others;" (click)="navigate(id)" style="width: 20rem;">
+        <img class="card-img-top" src="https://picsum.photos/id/{{id}}/500/300" alt="Card image cap">
+        <div class="card-body">
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+      </div>
+
+</div>

@@ -16,22 +16,40 @@ export class NavbarComponent implements OnInit {
 
   email = new FormControl('');
   password = new FormControl('');
+  user: User = new User();
 
   constructor(
     private authService: AuthenticatedFeaturesService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    if(localStorage.getItem("token")){
+      const data = await this.authService.refresh()
+      this.user = data.user
+      this.logged = data.logged
+    }
   }
 
-  async login(){
+  async login(): Promise<void> {
     try {
-      this.logged = await this.authService.login(this.email.value, this.password.value)
+      const data = await this.authService.login(this.email.value, this.password.value)
+      this.user = data.user
+      this.logged = data.logged
       
       } catch (error) {
         console.error(error)
     }
-    this.authService.login(this.email.value, this.password.value)
+  }
+
+  async logout(): Promise<void> {
+    try {
+      await this.authService.login(this.email.value, this.password.value)
+      this.user = {} as User
+      this.logged = false
+      
+      } catch (error) {
+        console.error(error)
+    }
   }
 
   setEmail(e: any){

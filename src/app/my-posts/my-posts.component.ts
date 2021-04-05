@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { AuthenticatedFeaturesService } from '../authenticated-features.service';
+import { RequestsService } from '../requests.service';
 
 @Component({
   selector: 'app-my-posts',
@@ -7,9 +10,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MyPostsComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private requestsService: RequestsService,
+    private authenticatedFeaturesService: AuthenticatedFeaturesService
+  ) { }
 
-  ngOnInit(): void {
+  posts: Array<any> = [];
+
+  async ngOnInit(): Promise<void> {
+    this.posts = await this.requestsService.getUserPosts(this.authenticatedFeaturesService.user.id);
   }
 
 }

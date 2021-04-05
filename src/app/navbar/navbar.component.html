@@ -9,13 +9,13 @@
           <a class="nav-link" routerLink="about" (click)="isMenuCollapsed = true">Sobre</a>
         </li>
           <div *ngIf="logged"  ngbDropdown class="d-inline-block" >
-            <li class="nav-link" style="cursor: pointer;" id="dropdownBasic1" ngbDropdownToggle>Área do Adm</li>
+            <li class="nav-link" style="cursor: pointer;" id="dropdownBasic1" ngbDropdownToggle>{{ user.username }}</li>
             <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
               <button ngbDropdownItem routerLink="new-post">Criar post</button>
               <button ngbDropdownItem routerLink="my-posts">Meus posts</button>
               <button ngbDropdownItem routerLink="profile">Perfil</button>
               <div class="dropdown-divider"></div>
-              <button ngbDropdownItem routerLink="/">Sair</button>
+              <button ngbDropdownItem routerLink="/" (click)="logout()">Sair</button>
             </div>
           </div>
           <div  *ngIf="!logged"  ngbDropdown class="d-inline-block" >

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { RequestsService } from '../requests.service';
 
 @Component({
   selector: 'app-post',
@@ -11,13 +12,14 @@ export class PostComponent implements OnInit {
   constructor(
     
     private route: ActivatedRoute,
+    private requestsService: RequestsService
   ) {}
 
-  id: number = 0;
+  post: any = {};
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
   const routeParams = this.route.snapshot.paramMap;
-  this.id = Number(routeParams.get('id'));
+  this.post = await this.requestsService.getPost(Number(routeParams.get('id')));
   }
 
 }

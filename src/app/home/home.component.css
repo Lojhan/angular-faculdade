@@ -24,3 +24,16 @@
         margin-inline: auto;
     }
   }
+
+.card-img-top {
+  height: 150px;
+  background-size: cover;
+  background-position: center;
+}
+
+.carousel-image {
+  
+  height: 450px;
+  background-size: cover;
+  background-position: center;
+}

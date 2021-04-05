@@ -1,24 +1,17 @@
 export default class User {
-    email: string
     username: string
     token: string
+    id: number
 
 
     constructor(
-        email: string = '',
         username: string = '',
         token: string = '',
+        id: number = 0
         ){
-       this.email = email
        this.username = username
        this.token = token
+       this.id = id
     }
 
-    static fromJSON(json: any): User{
-        return new User(
-            json["username"],
-            json["email"],
-            json["access_token"],
-        )
-    }
 }

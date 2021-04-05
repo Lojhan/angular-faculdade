@@ -6,16 +6,45 @@ import HttpClient from '../plugins/axios'
 })
 export class RequestsService extends HttpClient {
 
+
+
   constructor() { 
-    super("http://192.168.15.3:3000");
+    super("http://192.168.15.3:4000/api");
   }
 
-  async login(email: string, password: string) {
-    const response = await this.instance.post("login", { email, password });
-    localStorage.setItem("token", response["data"]["access_token"]);
+  async login(username: string, password: string) {
+    const response = await this.instance.post("auth/signin", { username, password });
+    localStorage.setItem("token", response.accessToken);
+    localStorage.setItem("username", username);
+    localStorage.setItem("id", response.user.id);
 
     this.instance.defaults.headers["Authorization"] =
-      "Bearer " + response["data"]["access_token"];
+      "Bearer " + response.accessToken;
+
+    return response;
+  }
+
+  async signup(email: string, username: string, password: string, image: File) {
+    
+    var formData = new FormData()
+    formData.append('email', email)
+    formData.append('username', username)
+    formData.append('password', password)
+    formData.append('image', image)
+    const response = await this.instance.post(
+        "auth/signup",
+        formData, { 
+          headers: { "Content-Type": "multipart/form-data"}
+        }
+      );
+    return response;
+  }
+
+  async refresh(token: string) {
+    const response = await this.instance.post("auth/verify", { token });
+    localStorage.setItem("token", response);
+    this.instance.defaults.headers["Authorization"] =
+      "Bearer " + response;
 
     return response;
   }
@@ -31,7 +60,26 @@ export class RequestsService extends HttpClient {
 
   async getAllPosts() {
     try{
-      return (await this.instance.get("posts")).data
+      return (await this.instance.get("posts"))
+    } catch (error) {
+      console.error(error)
+      return error
+    }
+  }
+
+  
+  async getLatestPosts() {
+    try{
+      return (await this.instance.get("posts/latest"))
+    } catch (error) {
+      console.error(error)
+      return error
+    }
+  }
+
+  async getUserPosts(id: number) {
+    try{
+      return (await this.instance.get("posts/user/" + id))
     } catch (error) {
       console.error(error)
       return error
@@ -40,11 +88,26 @@ export class RequestsService extends HttpClient {
 
   async getPost(id: number) {
     try{
-      return (await this.instance.get("post/" + id)).data
+      return (await this.instance.get("posts/" + id))
     } catch (error) {
       console.error(error)
       return error
     }
+  }
+
+  async post(title: string, subtitle: string, text: string, pic: File) {
+    var formData = new FormData()
+    formData.append('title', title)
+    formData.append('subtitle', subtitle)
+    formData.append('text', text)
+    formData.append('image', pic)
+    const response = await this.instance.post(
+        "posts",
+        formData, { 
+          headers: { "Content-Type": "multipart/form-data"}
+        }
+      );
+    return response;
   }
 
 

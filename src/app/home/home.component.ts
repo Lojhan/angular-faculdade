@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { AuthenticatedFeaturesService } from '../authenticated-features.service';
+import { RequestsService } from '../requests.service';
 
 @Component({
   selector: 'app-home',
@@ -8,14 +11,17 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
-  images = [1, 2, 3, 4, 5];
+  posts: Array<any> = [];
+  latest: Array<any> = [];
 
-  
-  others = [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+  constructor(
+    private router: Router,
+    private requestsService: RequestsService
+    ) { }
 
-  constructor(private router: Router) { }
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.posts = await this.requestsService.getAllPosts();
+    this.latest = await this.requestsService.getLatestPosts();
   }
 
   navigate(id: number){

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import validator from 'validator';
+import { AuthenticatedFeaturesService } from '../authenticated-features.service';
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,9 @@ import validator from 'validator';
 })
 export class RegisterComponent {
 
-  constructor() { }
+  constructor(
+    private authService: AuthenticatedFeaturesService
+  ) { }
 
   reader = new FileReader();
   src: any = "https://via.placeholder.com/350x350"
@@ -18,6 +21,7 @@ export class RegisterComponent {
   password = new FormControl('');
   passwordHelper = new FormControl('');
   passwordsMatch: "unset" | false | true = "unset"
+  profilePic: File = {} as File;
 
   openPicker(){
     document.getElementById('profile-pic')!.click();
@@ -27,6 +31,7 @@ export class RegisterComponent {
     if (event.target.files[0]! === null) return;
     event.target.files instanceof FileList && this.reader.readAsDataURL(event.target.files[0]!);
     this.reader.onloadend = () => this.src = this.reader.result;
+    this.profilePic = event.target.files[0]!;
   }
 
   setEmail(e: any){
@@ -84,6 +89,16 @@ export class RegisterComponent {
         this.username.value,
         this.password.value,
       )
+      try {
+        this.authService.signup(
+          this.email.value,
+          this.username.value,
+          this.password.value,
+          this.profilePic
+        )
+      } catch (err) {
+        console.log(err)
+      }
     }
   }
 

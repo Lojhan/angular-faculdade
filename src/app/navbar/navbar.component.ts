@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import User from 'src/models/user.model';
 import { AuthenticatedFeaturesService } from '../authenticated-features.service';
 
@@ -21,18 +21,30 @@ export class NavbarComponent implements OnInit {
 
   constructor(
     private authService: AuthenticatedFeaturesService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   async ngOnInit(): Promise<void> {
     if(localStorage.getItem("token")){
+      console.log('test')
       try {
         const data = await this.authService.refresh()
         this.user = data.user
         this.logged = data.logged
       } catch (error) {
         this.router.navigate(['/'])
+      } 
+    } else {
+      if([
+        'profile', 
+        'my-posts', 
+        'edit-post', 
+        'create-post'
+      ].includes(window.location.pathname.split('/')[1])) {
+        this.router.navigate(['/'])
       }
+    
     }
   }
 
@@ -49,9 +61,10 @@ export class NavbarComponent implements OnInit {
 
   async logout(): Promise<void> {
     try {
-      await this.authService.login(this.email.value, this.password.value)
+      this.authService.logout()
       this.user = {} as User
       this.logged = false
+      this.router.navigate(['/'])
       
       } catch (error) {
         console.error(error)

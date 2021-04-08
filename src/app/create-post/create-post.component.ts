@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Post } from 'src/models/post.model';
 import { AuthenticatedFeaturesService } from '../authenticated-features.service';
 import { RequestsService } from '../requests.service';
 
@@ -52,7 +53,8 @@ export class CreatePostComponent implements OnInit {
 
   async post(){
     try {
-      const data = await this.authService.post(this.title.value, this.subtitle.value, this.text.value, this.pic)
+      const data: Post = await this.authService.post(this.title.value, this.subtitle.value, this.text.value, this.pic) 
+      this.router.navigate(['post', data.id])
     } catch(err){
       console.log(err)
     }

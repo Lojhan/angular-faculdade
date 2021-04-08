@@ -53,7 +53,7 @@ export class AuthenticatedFeaturesService {
       return { logged: this.logged, user: this.user }
   }
 
-  async logout(){
+  logout(){
     try {
       localStorage.clear()
       this.logged = false
@@ -65,10 +65,9 @@ export class AuthenticatedFeaturesService {
 
   async post(title: string, subtitle: string, text: string, pic: File): Promise<any> {
     try {
-      await this.requests.post(title, subtitle, text, pic)
+      return await this.requests.post(title, subtitle, text, pic)
     } catch (error) {
       console.error(error)
-      return this.logged
     }
   }
 

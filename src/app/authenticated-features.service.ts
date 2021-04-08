@@ -42,7 +42,6 @@ export class AuthenticatedFeaturesService {
   }
 
   async refresh(): Promise<any> {
-    try {
       const data = await this.requests.refresh(localStorage.getItem("token")!)
       localStorage.setItem("token", data)
       this.logged = true
@@ -52,10 +51,6 @@ export class AuthenticatedFeaturesService {
         +localStorage.getItem("id")!
       )
       return { logged: this.logged, user: this.user }
-    } catch (error) {
-      console.error(error)
-      return this.logged
-    }
   }
 
   async logout(){
@@ -75,5 +70,18 @@ export class AuthenticatedFeaturesService {
       console.error(error)
       return this.logged
     }
+  }
+
+  async editPost(id: string | number, title: string, subtitle: string, text: string, pic: File): Promise<any> {
+    try {
+      await this.requests.editPost(id, title, subtitle, text, pic)
+    } catch (error) {
+      console.error(error)
+      return this.logged
+    }
+  }
+
+  async deletePost(id: string | number): Promise<any> {
+      await this.requests.deletePost(id)
   }
 }

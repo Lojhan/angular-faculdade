@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import User from 'src/models/user.model';
 import { AuthenticatedFeaturesService } from '../authenticated-features.service';
 
@@ -19,14 +20,19 @@ export class NavbarComponent implements OnInit {
   user: User = new User();
 
   constructor(
-    private authService: AuthenticatedFeaturesService
+    private authService: AuthenticatedFeaturesService,
+    private router: Router
   ) {}
 
   async ngOnInit(): Promise<void> {
     if(localStorage.getItem("token")){
-      const data = await this.authService.refresh()
-      this.user = data.user
-      this.logged = data.logged
+      try {
+        const data = await this.authService.refresh()
+        this.user = data.user
+        this.logged = data.logged
+      } catch (error) {
+        this.router.navigate(['/'])
+      }
     }
   }
 

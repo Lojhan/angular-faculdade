@@ -1,13 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Post } from 'src/models/post.model';
 import HttpClient from '../plugins/axios'
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequestsService extends HttpClient {
-
-
-
   constructor() { 
     super("http://192.168.15.3:4000/api");
   }
@@ -58,7 +56,7 @@ export class RequestsService extends HttpClient {
     }
   }
 
-  async getAllPosts() {
+  async getAllPosts(): Promise<Post[]> {
     try{
       return (await this.instance.get("posts"))
     } catch (error) {
@@ -68,7 +66,7 @@ export class RequestsService extends HttpClient {
   }
 
   
-  async getLatestPosts() {
+  async getLatestPosts(): Promise<Post[]> {
     try{
       return (await this.instance.get("posts/latest"))
     } catch (error) {
@@ -86,9 +84,9 @@ export class RequestsService extends HttpClient {
     }
   }
 
-  async getPost(id: number) {
+  async getPost(id: number): Promise<Post> {
     try{
-      return (await this.instance.get("posts/" + id))
+      return (await this.instance.get(`posts/${id}`))
     } catch (error) {
       console.error(error)
       return error
@@ -101,13 +99,33 @@ export class RequestsService extends HttpClient {
     formData.append('subtitle', subtitle)
     formData.append('text', text)
     formData.append('image', pic)
-    const response = await this.instance.post(
+    return await this.instance.post(
         "posts",
         formData, { 
           headers: { "Content-Type": "multipart/form-data"}
         }
       );
-    return response;
+  }
+
+
+  async editPost(id: string | number, title: string, subtitle: string, text: string, pic: File) {
+    var formData = new FormData()
+    formData.append('title', title)
+    formData.append('subtitle', subtitle)
+    formData.append('text', text)
+    formData.append('image', pic)
+    return await this.instance.patch(
+      `posts/${id}`,
+        formData, { 
+          headers: { "Content-Type": "multipart/form-data"}
+        }
+      );
+  }
+
+
+
+  async deletePost(id: string | number) {
+    return await await this.instance.delete(`posts/${id}`)
   }
 
 

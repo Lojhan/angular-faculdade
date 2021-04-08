@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticatedFeaturesService } from '../authenticated-features.service';
+import { RequestsService } from '../requests.service';
 
 @Component({
   selector: 'app-create-post',
@@ -10,8 +12,11 @@ import { AuthenticatedFeaturesService } from '../authenticated-features.service'
 export class CreatePostComponent implements OnInit {
 
   constructor(
-    private authService: AuthenticatedFeaturesService
-  ) { }
+    private authService: AuthenticatedFeaturesService,
+    private requestsService: RequestsService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   reader = new FileReader();
   src: any = "https://via.placeholder.com/1200x500"
@@ -20,6 +25,7 @@ export class CreatePostComponent implements OnInit {
   subtitle = new FormControl('');
   text = new FormControl('');
   pic: File = {} as File;
+  id: number = -1;
 
   openPicker(){
     document.getElementById('profile-pic')!.click();
@@ -44,17 +50,36 @@ export class CreatePostComponent implements OnInit {
     this.text.setValue(e.target.value)
   }
 
-  post(){
+  async post(){
     try {
-      this.authService.post(this.title.value, this.subtitle.value, this.text.value, this.pic)
+      const data = await this.authService.post(this.title.value, this.subtitle.value, this.text.value, this.pic)
     } catch(err){
       console.log(err)
     }
   }
 
+  async editPost(){
+    try {
+      await this.authService.editPost(this.id, this.title.value, this.subtitle.value, this.text.value, this.pic)
+      this.router.navigate(['post', this.id])
+    } catch(err){
+      console.log(err)
+    }
+  }
 
-
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    const routeId = this.route.snapshot.paramMap.get("id");
+    if (routeId){
+      const { id, title, subtitle, text } = await this.requestsService.getPost(Number(routeId));
+      console.log(title, subtitle, text)
+      this.id = id;
+      this.src = `http://192.168.15.3:4000/api/images/posts/${id}.jpeg`
+      this.title.setValue(title)
+      this.subtitle.setValue(subtitle)
+      this.text.setValue(text)
+    } else {
+      this.id = 0
+    }
   }
 
 }

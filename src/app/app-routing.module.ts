@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'post/:id', component: PostComponent },
   { path: 'sign-up', component: RegisterComponent },
   { path: 'new-post', component: CreatePostComponent },
+  { path: 'edit-post/:id', component: CreatePostComponent },
   { path: 'my-posts', component: MyPostsComponent },
   { path: 'profile', component: ProfileComponent },
 ];

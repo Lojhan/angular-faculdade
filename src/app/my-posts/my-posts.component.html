@@ -1,5 +1,11 @@
 <div class="container mt-5">
-    <h1 class="display-4 mb-5">Meus Posts</h1>
+  <swal
+  #error
+  title="Oops! Algo deu errado"
+  icon="error"
+  [focusCancel]="true">
+</swal>
+    <h1 class="display-4 mb-5">Meus posts</h1>
     <table class="table table-striped">
         <thead>
           <tr>
@@ -15,8 +21,19 @@
             <td>{{ post.title }}</td>
             <td>{{ post.createdAt | date: 'dd/MM/yyyy' }}</td>
             <td>
-                <button class="btn btn-outline-primary mr-2">Editar</button>
-                <button class="btn btn-outline-danger">Remover</button>
+                <button (click)="editPost(post.id)" class="btn btn-outline-primary mr-2">Editar</button>
+                <button   
+                [swal]="
+                { 
+                  title: 'Deseja realmente excluir a postagem?', 
+                  showCancelButton: true, 
+                  cancelButtonText: 'Cancelar', 
+                  icon: 'question' 
+                }"
+                (confirm)="deletePost(post.id)" 
+                class="btn btn-outline-danger"
+                >
+                Remover</button>
             </td>
           </tr>
         </tbody>

@@ -1,21 +1,25 @@
 <div class="container">
-    <div class="mt-5 mb-5">
-        <img [src]="src" class="img-fluid mx-auto d-block" alt="Responsive image" (click)="openPicker()">
+    <div class="mt-5">
+        <img [src]="src" class="img-fluid mx-auto d-block my-5" alt="Responsive image" (click)="openPicker()">
         <input type="file" id="profile-pic" style="display: none;" (change)="changed($event)">
 
         <div class="card p-3 mb-5">
             <label for="" class="mt-3">Título</label>
-            <input (input)="setTitle($event)" type="text" id="registerUsername" class="form-control" >
+            <input (input)="setTitle($event)" type="text" [value]="title.value"  class="form-control" >
             
             
             <label for="" class="mt-3">Subtítulo</label>
-            <input (input)="setSubtitle($event)" type="text" id="registerUsername" class="form-control" >
+            <input (input)="setSubtitle($event)" type="text" [value]="subtitle.value" class="form-control" >
             
             
             <label for="" class="mt-3">Texto</label>
-            <textarea (input)="setText($event)" class="form-control" id="exampleFormControlTextarea1" rows="7"></textarea>
+            <textarea (input)="setText($event)" class="form-control" [value]="text.value" rows="7"></textarea>
             
-            <button (click)="post()" class="btn btn-outline-dark mt-5 d-block">Criar post</button>
+            <button 
+            (click)="id === 0 ? post() : editPost()" 
+            class="btn btn-outline-dark mt-5 d-block"
+            > {{ id === 0 ? 'Criar post' : 'Editar post'}}
+            </button>
         </div>
     </div>
 </div>

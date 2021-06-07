@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <ngb-carousel *ngIf="latest.length > 0">
     <ng-template ngbSlide *ngFor="let post of latest">
-      <div class="picsum-img-wrapper" (click)="navigate(post?.id)">
+      <div class="picsum-img-wrapper" (click)="navigate(post?._id)">
         <div class="carousel-image" style="background-image: url(http://192.168.15.5:4000/api/images/posts/{{post._id}}.jpeg);"></div>
       </div>
       <div class="carousel-caption">

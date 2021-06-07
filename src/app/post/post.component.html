@@ -4,7 +4,7 @@
         <p class="text-secondary mt-3">{{ post.subtitle }}</p>
 
         <div class="d-flex my-5">
-            <div class="profile-picture" style="background-image: url(http://192.168.15.5:4000/api/images/profiles/{{post?.user}}.jpeg);"></div>
+            <div class="profile-picture" style="background-image: url(http://192.168.15.5:4000/api/images/profiles/{{post?.user._id}}.jpeg);"></div>
             <div>
                 <p>{{ post.createdAt | date: 'dd/MM/yyyy' }}</p>
                 <p>Por <span class="text-primary font-weight-bold">{{ post.user?.username }}</span> </p>

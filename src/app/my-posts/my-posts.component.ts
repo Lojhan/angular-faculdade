@@ -22,13 +22,13 @@ export class MyPostsComponent implements OnInit {
   posts: Array<any> = [];
 
   async ngOnInit(): Promise<void> {
-    this.posts = await this.requestsService.getUserPosts(+localStorage.getItem('id')!);
+    this.posts = await this.requestsService.getUserPosts(localStorage.getItem('id')!);
   }
 
   async deletePost(id: string | number) {
     try {
       await this.authenticatedFeaturesService.deletePost(id);
-      this.posts = await this.requestsService.getUserPosts(+localStorage.getItem('id')!);
+      this.posts = await this.requestsService.getUserPosts(localStorage.getItem('id')!);
 
     } catch (error) {
       this.errorSwal.fire()

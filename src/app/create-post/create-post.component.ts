@@ -26,7 +26,7 @@ export class CreatePostComponent implements OnInit {
   subtitle = new FormControl('');
   text = new FormControl('');
   pic: File = {} as File;
-  id: number = -1;
+  id: number | string = -1;
 
   openPicker(){
     document.getElementById('profile-pic')!.click();
@@ -54,7 +54,7 @@ export class CreatePostComponent implements OnInit {
   async post(){
     try {
       const data: Post = await this.authService.post(this.title.value, this.subtitle.value, this.text.value, this.pic) 
-      this.router.navigate(['post', data.id])
+      this.router.navigate(['post', data._id])
     } catch(err){
       console.log(err)
     }
@@ -72,10 +72,10 @@ export class CreatePostComponent implements OnInit {
   async ngOnInit(): Promise<void> {
     const routeId = this.route.snapshot.paramMap.get("id");
     if (routeId){
-      const { id, title, subtitle, text } = await this.requestsService.getPost(Number(routeId));
+      const { _id, title, subtitle, text } = await this.requestsService.getPost(routeId);
       console.log(title, subtitle, text)
-      this.id = id;
-      this.src = `http://192.168.15.3:4000/api/images/posts/${id}.jpeg`
+      this.id = _id;
+      this.src = `http://192.168.15.5:4000/api/images/posts/${_id}.jpeg`
       this.title.setValue(title)
       this.subtitle.setValue(subtitle)
       this.text.setValue(text)

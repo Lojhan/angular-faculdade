@@ -21,7 +21,7 @@ export class AuthenticatedFeaturesService {
       this.logged = true
       console.log(data)
       
-      localStorage.setItem("id", data.user.id)
+      localStorage.setItem("id", data.user._id)
       return { logged: this.logged, user: this.user }
     } catch (error) {
       console.error(error)

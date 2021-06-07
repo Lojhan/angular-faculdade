@@ -19,7 +19,7 @@ export class PostComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
   const routeParams = this.route.snapshot.paramMap;
-  this.post = await this.requestsService.getPost(Number(routeParams.get('id')));
+  this.post = await this.requestsService.getPost(routeParams.get('id')!);
   }
 
 }

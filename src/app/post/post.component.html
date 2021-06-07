@@ -4,14 +4,14 @@
         <p class="text-secondary mt-3">{{ post.subtitle }}</p>
 
         <div class="d-flex my-5">
-            <div class="profile-picture" style="background-image: url(http://192.168.15.3:4000/api/images/profiles/{{post.user?.id}}.jpeg);"></div>
+            <div class="profile-picture" style="background-image: url(http://192.168.15.5:4000/api/images/profiles/{{post?.user}}.jpeg);"></div>
             <div>
                 <p>{{ post.createdAt | date: 'dd/MM/yyyy' }}</p>
                 <p>Por <span class="text-primary font-weight-bold">{{ post.user?.username }}</span> </p>
             </div>
         </div>
 
-        <img src="http://192.168.15.3:4000/api/images/posts/{{post?.id}}.jpeg" class="img-fluid mx-auto d-block" alt="Responsive image">
+        <img src="http://192.168.15.5:4000/api/images/posts/{{post?._id}}.jpeg" class="img-fluid mx-auto d-block" alt="Responsive image">
         <p class="p-5 ">{{ post.text }}</p>
     </div>
 </div>

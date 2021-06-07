@@ -15,7 +15,7 @@ export class ProfileComponent {
 
   name = localStorage.getItem("username")
 
-  src = `http://192.168.15.3:4000/api/images/profiles/${localStorage.getItem("id")}.jpeg`
+  src = `http://192.168.15.5:4000/api/images/profiles/${localStorage.getItem("id")}.jpeg`
 
 
   async logout(): Promise<void> {

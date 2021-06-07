@@ -7,7 +7,7 @@ import HttpClient from '../plugins/axios'
 })
 export class RequestsService extends HttpClient {
   constructor() { 
-    super("http://192.168.15.3:4000/api");
+    super("http://192.168.15.5:4000/api");
   }
 
   async login(username: string, password: string) {
@@ -75,7 +75,7 @@ export class RequestsService extends HttpClient {
     }
   }
 
-  async getUserPosts(id: number) {
+  async getUserPosts(id: string) {
     try{
       return (await this.instance.get("posts/user/" + id))
     } catch (error) {
@@ -84,7 +84,7 @@ export class RequestsService extends HttpClient {
     }
   }
 
-  async getPost(id: number): Promise<Post> {
+  async getPost(id: string): Promise<Post> {
     try{
       return (await this.instance.get(`posts/${id}`))
     } catch (error) {
